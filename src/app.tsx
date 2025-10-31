@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 const ALL_LETTERS: string[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
@@ -12,6 +12,12 @@ export function App() {
   function onButtonClick(newLetter: string) {
     setInputValue((prev) => prev + newLetter);
   }
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const queryParamsWords = queryParams.get("word");
+    if (queryParamsWords) handleInputChange(queryParamsWords);
+  }, []);
 
   const availableLetters: string[] = ALL_LETTERS.filter((l) => !inputValue.includes(l));
 
